@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link href="style/nv.d3.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+html, body{ height: 100%; }
+#chart{ width: 66%; height: 66%; }
+.nv-bar.positive{ fill: #98df8a !important; }
+.nv-bar.negative{ fill: #ff9896 !important;}
+.nv-bar:first-of-type{ fill: #ffdf7a !important;}
+.nvd3 .nv-axis .tick.zero line{ stroke: #999; }
+/*.tick text{ fill: blue;}*/
+</style>
+<body>
+	<div id="chart"><svg></svg></div>
+</body>
+<script type="text/javascript" src="script/lib/d3.v3.js"></script>
+<script type="text/javascript" src="script/nv.d3.js"></script>
+<script type="text/javascript">
+var exampleData = [{
+	key: "Cumulative Return" ,
+	values: [
+		{ "label" : "YAGO" , "value" : 196.45946739256 } , 
+		{ "label" : "TV" , "value" : 32.807804682612 } , 
+		{ "label" : "Tv2" , "value" : 32.807804682612 } , 
+		{ "label" : "Tv3" , "value" : 32.807804682612 } , 
+		{ "label" : "Radio" , "value" : 0 } , 
+		{ "label" : "Catalina" , "value" : -5.1387322875705 } ,
+		{ "label" : "Magazines" , "value" : -13.925743130903 } , 
+		{ "label" : "Outdoor" ,"value" : -29.765957771107 } , 
+		{ "label" : "Newspaper" , "value" : -98.079782601442 } 
+	]
+}];
+
+var realData = [{
+			key:"Due to",
+			values:[
+				{"label":"Total Volume Change", "value":5534},
+				{"label":"Total Print", "value":291},
+				{"label":"Total Online", "value":286},
+				{"label":"Base Trend", "value":219},
+				{"label":"TPR Only", "value":117},
+				{"label":"Distribution", "value":30},
+				{"label":"Other", "value":9},
+				{"label":"Total TV", "value":-8},
+				{"label":"Base Price", "value":-44},
+				{"label":"Total FSIs", "value":-129},
+				{"label":"Quality Merchandising", "value":-237},
+				{"label":"another change Change", "value":6100},
+			]	
+		}];
+
+var thechart = null;
+
+nv.addGraph(function() {
+
+	var chart = nv.models.discreteBarChart()
+		.x(function(d) { return d.label })
+		.y(function(d) { return d.value })
+		.staggerLabels(true)
+		.tooltips(true)
+		.showValues(true)
+		.showXAxis(false)
+	;
+
+	d3.select('#chart svg')
+	.datum(realData)
+	.transition().duration(500)
+	.call(chart);
+
+	thechart = chart;
+
+	nv.utils.windowResize(chart.update);
+	return chart;
+
+});
+</script>
